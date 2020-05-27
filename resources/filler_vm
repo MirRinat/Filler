@@ -435,7 +435,7 @@ class	Vm_filler
 	def version
 		$stdout.write "# -------------- VM  version 1.1 ------------- #\n"
 		$stdout.write "#                                              #\n"
-		$stdout.write "# 42 / filler VM Developped by: Hcao - Abanlin #\n"
+		$stdout.write "# 42 / solver VM Developped by: Hcao - Abanlin #\n"
 		$stdout.write "#                                              #\n"
 		$stdout.write "# -------------------------------------------- #\n"
 	end

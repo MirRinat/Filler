@@ -16,6 +16,8 @@ FLAGS = -Wall -Werror -Wextra
 
 NAME = libft.a
 
+HDR     = -I ./includes
+
 PRINTF_C = float.c number.c parser.c display.c string.c  base_numbers.c define.c ft_printf.c define_nb.c display_nb.c
 
 GNL_C = get_next_line.c
@@ -58,7 +60,7 @@ all: $(NAME)
 $(NAME): $(PATH_O)
 	@ar rc $(NAME) $(PATH_O)
 	@ranlib $(NAME)
-	@echo $(GREEN)"     $(NAME) is ready"
+	@echo $(GREEN)"     $(NAME) is ready"$(EOC)
 
 $(DIR_O)/%.o: $(DIR_C_LIB)%.c
 	@mkdir -p $(DIR_O)
