@@ -12,7 +12,7 @@
 
 #include "../../headers/libft.h"
 
-char		*ft_strsub(char const *s, unsigned int start, size_t len)
+char		*ft_strsub(char const *s, int start, int len)
 {
 	char	*p;
 	int		i;

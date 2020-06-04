@@ -12,20 +12,79 @@
 
 #include "../includes/filler.h"
 
+int	ft_len_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (arr && *arr)
+	{
+		while (arr[i])
+			i++;
+	}
+	return (i);
+}
+
+
+void	ft_free_string_arr(char **t)
+{
+	char	**curr;
+
+	if (t && *t)
+	{
+		curr = t;
+		while (*curr)
+			free(*(curr++));
+		free(t);
+		t = NULL;
+	}
+	if (t)
+	{
+		free(t);
+		t = NULL;
+	}
+}
+
+int valid_map(t_struct *map, char *buf, int gnl)
+{
+	char **tab;
+
+	if (gnl == 0 || gnl == -1 || !buf || !buf[0])
+	{
+		ft_strdel(&buf);
+		free_map((void **)map->map);
+		return (-1);
+	}
+	tab = ft_strsplit(buf, ' ');
+	if (ft_len_arr(tab) != 2 || ft_strlen(tab[0]) != 3
+	|| ft_strlen(tab[1]) != map->hor_size)
+	{
+		ft_strdel(&buf);
+		free_map((void **)map->map);
+		ft_free_string_arr(tab);
+		return (-1);
+	}
+	ft_strdel(&buf);
+	ft_free_string_arr(tab);
+	return (1);
+}
+
+
 static int	map_change(t_struct *map, int size)
 {
 	char	*buf;
 	int		j;
 	int		i;
+	int		gnl;
+//	char **tab;
 
 	j = 0;
 	while (j < size)
 	{
-		if (get_next_line(0, &buf) == -1)
-		{
-			free_map((void **)map->map);
-			return (-1);
-		}
+		gnl = get_next_line(0, &buf);
+//		if (valid_map(map, buf, gnl) == -1)
+//			return (-1);
+//		tab = ft_strsplit(buf, ' ');
 		i = 0;
 		while (i < map->hor_size)
 		{
@@ -35,7 +94,7 @@ static int	map_change(t_struct *map, int size)
 				map->map[j][i] = (map->my_num == 1) ? 0 : -1;
 			i++;
 		}
-		free(buf);
+
 		j++;
 	}
 	return (1);
@@ -57,22 +116,118 @@ int			refresh_map(t_struct *map, int size)
 	return (1);
 }
 
+//int valid_player(t_struct *map)
+//{
+//	char **arr1;
+//	char *ptr;
+//	int gnl;
+//
+//	gnl = get_next_line(0, &ptr);
+//	if (gnl == 0 || gnl == -1 || !ptr || !ptr[0])
+//	{
+//		if (ptr)
+//			ft_strdel(&ptr);
+//		return (-1);
+//	}
+//	arr1 = ft_strsplit(ptr, ' ');
+//	ft_strdel(&ptr);
+//	if (ft_strcmp(arr1[0], "$$$") != 0 || ft_strcmp(arr1[1], "exec") != 0
+//	|| ft_len_arr(arr1) != 5)
+//	{
+//		ft_free_string_arr(arr1);
+//		return (-1);
+//	}
+//	if(ft_strlen(arr1[2]) == 2)
+//	{
+//		if (arr1[2][1] == '1' || arr1[2][1] == '2')
+//			map->my_num = arr1[2][1] - '0';
+//	}
+//	ft_free_string_arr(arr1);
+//	return (1);
+//}
+//
+//int valid_shape(t_struct *map)
+//{
+//	int gnl;
+//	char *ptr;
+//	char **arr2;
+//	char **arr3;
+//
+//	gnl = get_next_line(0, &ptr);
+//	if (gnl == 0 || gnl == -1 || !ptr || !ptr[0])
+//	{
+//		ft_strdel(&ptr);
+//		return (-1);
+//	}
+//	arr2 = ft_strsplit(ptr,' ');
+//	ft_strdel(&ptr);
+//	if 	(ft_len_arr(arr2) != 3 || ft_strcmp(arr2[0], "Plateau") != 0)
+//	{
+//		ft_free_string_arr(arr2);
+//		return (-1);
+//	}
+//	map->ver_size = ft_atoi(arr2[1]);
+//	arr3 = ft_strsplit(arr2[2], ':');
+//	ft_free_string_arr(arr2);
+//	map->hor_size = ft_atoi(arr3[0]);
+//	ft_free_string_arr(arr3);
+//	return (1);
+//}
+
 int			def_shape_map(t_struct *map)
 {
-	char	*ptr;
+//	if (valid_player(map) == -1)
+//		return (-1);
+//	if (valid_shape(map) == -1)
+//		return (-1);
+	char **arr2;
+	char **arr3;
+	char **arr1;
+	char *ptr;
+	int gnl;
 
-	if (get_next_line(0, &ptr) == -1)
+	gnl = get_next_line(0, &ptr);
+	if (gnl == 0 || gnl == -1 || !ptr || !ptr[0])
+	{
+		if (ptr)
+			ft_strdel(&ptr);
 		return (-1);
-	map->my_num = ptr[10] - '0';
-	free(ptr);
-	if (get_next_line(0, &ptr) == -1)
+	}
+	arr1 = ft_strsplit(ptr, ' ');
+	ft_strdel(&ptr);
+	if (ft_strcmp(arr1[0], "$$$") != 0 || ft_strcmp(arr1[1], "exec") != 0
+		|| ft_len_arr(arr1) != 5)
+	{
+		ft_free_string_arr(arr1);
 		return (-1);
-	map->ver_size = (int)ft_atoi(&(ptr[8]));
-	map->hor_size = (int)ft_atoi(&(ptr[8 + size_num(map->ver_size) + 1]));
+	}
+	if(ft_strlen(arr1[2]) == 2)
+	{
+		if (arr1[2][1] == '1' || arr1[2][1] == '2')
+			map->my_num = arr1[2][1] - '0';
+	}
+	ft_free_string_arr(arr1);
+	gnl = get_next_line(0, &ptr);
+	if (gnl == 0 || gnl == -1 || !ptr || !ptr[0])
+	{
+		ft_strdel(&ptr);
+		return (-1);
+	}
+	arr2 = ft_strsplit(ptr,' ');
+	ft_strdel(&ptr);
+	if 	(ft_len_arr(arr2) != 3 || ft_strcmp(arr2[0], "Plateau") != 0)
+	{
+		ft_free_string_arr(arr2);
+		return (-1);
+	}
+	map->ver_size = ft_atoi(arr2[1]);
+	arr3 = ft_strsplit(arr2[2], ':');
+	ft_free_string_arr(arr2);
+	map->hor_size = ft_atoi(arr3[0]);
+	ft_free_string_arr(arr3);
 	if (!(map->map = (int**)malloc(sizeof(int*) * (map->ver_size + 1))))
 		return (-1);
 	map->map[map->ver_size] = NULL;
-	free(ptr);
 	return (0);
 }
 
@@ -81,7 +236,8 @@ int			create_map(t_struct *map)
 	int		size;
 
 	size = 0;
-	def_shape_map(map);
+	if(def_shape_map(map) == -1)
+		return (-1);
 	while (size < map->ver_size)
 	{
 		if (!(map->map[size] = (int*)malloc(sizeof(int) * map->hor_size)))
@@ -91,8 +247,9 @@ int			create_map(t_struct *map)
 		}
 		fillna(map->map[size++], map->hor_size);
 	}
-	if (!skip_str(1))
+	if (skip_str(1) == -1)
 		return (-1);
-	refresh_map(map, map->ver_size);
+	if (refresh_map(map, map->ver_size) == -1)
+		return (-1);
 	return (0);
 }

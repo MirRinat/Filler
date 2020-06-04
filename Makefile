@@ -12,21 +12,16 @@
 
 NAME = bglinda.filler
 
-BONUS = viz
 
-CFLAGS  = -Wall -Wextra -Werror
+CFLAGS  = -Wall -Wextra -Werror -g
 
 SRC_FILLER = main.c algorithm.c create_map.c create_figure.c heatmap.c helper.c \
-
-SRC_VIZUAL = vizual.c helper_bonus.c header.c \
 
 OBJSFD  = obj
 
 SRCS    = src
 
 OBJS1    = $(addprefix $(OBJSFD)/,$(SRC_FILLER:.c=.o))
-
-OBJS2    = $(addprefix $(OBJSFD)/,$(SRC_VIZUAL:.c=.o))
 
 DFS = ./includes/filler.h
 
@@ -40,7 +35,7 @@ GREEN:="\033[1;32m"
 
 ANSI_COLOR_RESET:="\x1b[0m"
 
-all: $(LIBFT) $(NAME) $(BONUS)
+all: $(LIBFT) $(NAME)
 
 $(OBJSFD):
 	@mkdir $@
@@ -55,9 +50,6 @@ $(NAME): $(OBJS1) $(DFS)
 	@gcc $(OBJS1) $(LIB_BINARY) -o $@
 	@echo $(GREEN)"     $(NAME) is ready"$(ANSI_COLOR_RESET)
 
-$(BONUS): $(OBJS2) $(DFS)
-	@gcc $(OBJS2) $(LIB_BINARY) -o $@ -lcurses
-	@echo $(GREEN)"     $(BONUS) is ready"$(ANSI_COLOR_RESET)
 
 clean:
 	@/bin/rm -f $(OBJS)
@@ -66,7 +58,6 @@ clean:
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	@/bin/rm -f $(BONUS)
 	@make -C ./includes/libft fclean
 
 re: fclean all

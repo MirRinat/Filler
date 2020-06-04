@@ -12,6 +12,25 @@
 
 #include "../includes/filler.h"
 
+void print_heatmap(t_struct *map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < map->ver_size)
+	{
+		j = 0;
+		while (j < map->hor_size)
+		{
+			printf("%d ", map->map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}
+
 int			check_inter(int map_value, int figure_value, int *inter,
 		int *count)
 {
@@ -98,6 +117,7 @@ int			solver(t_struct *map)
 	while (1)
 	{
 		update_heatmap(map, 0, 1);
+		print_heatmap(map);
 		find_place(map);
 		x = ft_itoa(map->my_x);
 		y = ft_itoa(map->my_y);
@@ -108,7 +128,7 @@ int			solver(t_struct *map)
 		free(y);
 		if (map->my_x < 0 || map->my_y < 0)
 			break ;
-		if (!skip_str(2))
+		if (skip_str(2) == -1)
 			return (fresh(-1, map));
 		clear_map(map);
 		if (refresh_map(map, map->ver_size) == -1)

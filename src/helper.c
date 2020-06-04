@@ -38,12 +38,15 @@ int			skip_str(int line_count)
 {
 	char	*ptr;
 	int		size;
+	int		gnl;
 
 	size = 0;
 	ptr = NULL;
+
 	while (size < line_count)
 	{
-		if (get_next_line(0, &ptr) == -1)
+		gnl = get_next_line(0, &ptr);
+		if (gnl == 0 || gnl == -1)
 			return (-1);
 		free(ptr);
 		size++;

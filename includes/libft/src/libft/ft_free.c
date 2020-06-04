@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bglinda <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: bglinda <bglinda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/05 12:27:53 by bglinda           #+#    #+#             */
-/*   Updated: 2019/04/12 15:11:32 by bglinda          ###   ########.fr       */
+/*   Created: 2020/05/29 23:54:29 by bglinda           #+#    #+#             */
+/*   Updated: 2020/05/29 23:54:35 by bglinda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/libft.h"
 
-int	ft_strlen(const char *str)
+char	ft_free(char **tab, size_t j)
 {
-	int len;
-
-	len = 0;
-	while (str[len] != '\0')
-		len++;
-	return (len);
+	while (j)
+	{
+		j--;
+		free(tab[j]);
+	}
+	free(tab);
+	return (0);
 }
