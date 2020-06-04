@@ -117,7 +117,6 @@ int			solver(t_struct *map)
 	while (1)
 	{
 		update_heatmap(map, 0, 1);
-		print_heatmap(map);
 		find_place(map);
 		x = ft_itoa(map->my_x);
 		y = ft_itoa(map->my_y);

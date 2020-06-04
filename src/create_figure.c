@@ -115,8 +115,8 @@ int			create_fig(t_struct *map)
 	while (i < map->f_ver)
 	{
 		gnl = get_next_line(0, &ptr);
-//		if (valid_figure(map, ptr, gnl) == -1)
-//			return (-1);
+		if (valid_figure(map, ptr, gnl) == -1)
+			return (-1);
 		j = 0;
 		while (ptr[j] != '\0')
 		{
@@ -140,7 +140,7 @@ int			define_figure(char *piece, t_struct *map)
 		return (-1);
 	map->ver_shift = 0;
 	map->right_shift = 0;
-	cut_by_ver(map);
-	cut_by_hor(map);
+//	cut_by_ver(map);
+//	cut_by_hor(map);
 	return (0);
 }

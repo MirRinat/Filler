@@ -77,7 +77,7 @@ int			check_weight(t_struct *map, int cost, int i, int j)
 
 	count = 0;
 	count += check_weight_hor_ver(map, cost, i, j);
-	count += check_weight_diag(map, cost, i, j);
+//	count += check_weight_diag(map, cost, i, j);
 
 	return (count);
 }

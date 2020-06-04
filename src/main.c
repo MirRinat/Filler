@@ -33,8 +33,6 @@ int			main(void)
 
 	if (create_map(&map) == -1)
 		return (-1);
-	print_heatmap(&map);
-	printf("\n");
 	if (solver(&map) == -1)
 		return (-1);
 	free_map((void **)map.map);
