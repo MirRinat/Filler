@@ -38,13 +38,7 @@ DIR_C_LIB = ./src/libft/
 
 DIR_O = obj
 
-
-BLACK:="\033[1;30m"
-RED:="\033[1;31m"
 GREEN:="\033[1;32m"
-CYAN:="\033[1;35m"
-PURPLE:="\033[1;36m"
-WHITE:="\033[1;37m"
 EOC:="\033[0;0m"
 
 CFILES = $(LIBFT_C) $(PRINTF_C) $(GNL_C)
@@ -57,21 +51,21 @@ PATH_O = $(addprefix $(DIR_O)/,$(OFILES))
 
 all: $(NAME)
 
-$(NAME): $(PATH_O)
+$(DIR_O):
+	@mkdir -p $@
+
+$(NAME): $(DIR_O) $(PATH_O)
 	@ar rc $(NAME) $(PATH_O)
 	@ranlib $(NAME)
 	@echo $(GREEN)"     $(NAME) is ready"$(EOC)
 
-$(DIR_O)/%.o: $(DIR_C_LIB)%.c
-	@mkdir -p $(DIR_O)
+$(DIR_O)/%.o: $(DIR_C_LIB)%.c ./headers/libft.h
 	@$(CC) $(FLAGS) -c $< -o $@;
 
-$(DIR_O)/%.o: $(DIR_C_PRF)%.c
-	@mkdir -p $(DIR_O)
+$(DIR_O)/%.o: $(DIR_C_PRF)%.c ./headers/ft_printf.h
 	@$(CC) $(FLAGS) -c $< -o $@;
 
-$(DIR_O)/%.o: $(DIR_C_GNL)%.c
-	@mkdir -p $(DIR_O)
+$(DIR_O)/%.o: $(DIR_C_GNL)%.c ./headers/get_next_line.h
 	@$(CC) $(FLAGS) -c $< -o $@;
 
 clean:

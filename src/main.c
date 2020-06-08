@@ -12,21 +12,6 @@
 
 #include "../includes/filler.h"
 
-void		*free_map(void **mas)
-{
-	char	**ptr;
-	int		i;
-
-	i = 0;
-	if (!mas)
-		return (NULL);
-	ptr = (char**)mas;
-	while (ptr[i] != NULL)
-		free(ptr[i++]);
-	free(ptr);
-	return (NULL);
-}
-
 int			main(void)
 {
 	t_struct map;
@@ -37,6 +22,5 @@ int			main(void)
 		return (-1);
 	free_map((void **)map.map);
 	free_map((void **)map.figure);
-
 	return (0);
 }

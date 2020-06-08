@@ -12,19 +12,6 @@
 
 #include "../includes/filler.h"
 
-int			size_num(int num)
-{
-	int		size;
-
-	size = 0;
-	while (num > 0)
-	{
-		num /= 10;
-		size++;
-	}
-	return (size);
-}
-
 void		fillna(int *s, int n)
 {
 	int		i;
@@ -42,7 +29,6 @@ int			skip_str(int line_count)
 
 	size = 0;
 	ptr = NULL;
-
 	while (size < line_count)
 	{
 		gnl = get_next_line(0, &ptr);
@@ -78,4 +64,19 @@ void		clear_map(t_struct *map)
 		i++;
 	}
 	free_map((void **)map->figure);
+}
+
+void		*free_map(void **mas)
+{
+	char	**ptr;
+	int		i;
+
+	i = 0;
+	if (!mas)
+		return (NULL);
+	ptr = (char**)mas;
+	while (ptr[i] != NULL)
+		free(ptr[i++]);
+	free(ptr);
+	return (NULL);
 }

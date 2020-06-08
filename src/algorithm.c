@@ -12,27 +12,8 @@
 
 #include "../includes/filler.h"
 
-void print_heatmap(t_struct *map)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i < map->ver_size)
-	{
-		j = 0;
-		while (j < map->hor_size)
-		{
-			printf("%d ", map->map[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-}
-
-int			check_inter(int map_value, int figure_value, int *inter,
-		int *count)
+int			intersection(int map_value, int figure_value, int *inter,
+							int *count)
 {
 	if (map_value == -1 && figure_value == -1)
 		(*inter)++;
@@ -60,9 +41,9 @@ int			set_figure(t_struct *map, int i, int j, int *inter)
 	{
 		x = 0;
 		j = ptr_j;
-		while (x < map->f_width && j < map->hor_size)
+		while (j < map->hor_size && x < map->f_width)
 		{
-			if (check_inter(map->map[i][j], map->figure[y][x],
+			if (intersection(map->map[i][j], map->figure[y][x],
 					inter, &count) == -1)
 				return (-1);
 			j++;
@@ -74,7 +55,7 @@ int			set_figure(t_struct *map, int i, int j, int *inter)
 	return (count);
 }
 
-int			change_values(t_struct *map, int i, int j, int count)
+int			change_coord(t_struct *map, int i, int j, int count)
 {
 	map->my_x = j;
 	map->my_y = i;
@@ -96,12 +77,12 @@ void		find_place(t_struct *map)
 		j = 0;
 		while (j < map->hor_size)
 		{
-			if (((i + map->f_ver - map->ver_shift - 1) < map->ver_size)
-				&& (j + map->f_width - map->right_shift - 1 < map->hor_size))
+			if (((i + map->f_ver - 1) < map->ver_size)
+				&& (j + map->f_width - 1 < map->hor_size))
 			{
 				count = set_figure(map, i, j, &intersection);
 				if (count > 0 && intersection > 0 && count < current)
-					current = change_values(map, i, j, count);
+					current = change_coord(map, i, j, count);
 			}
 			j++;
 		}
@@ -130,7 +111,7 @@ int			solver(t_struct *map)
 		if (skip_str(2) == -1)
 			return (fresh(-1, map));
 		clear_map(map);
-		if (refresh_map(map, map->ver_size) == -1)
+		if (update_map(map, map->ver_size) == -1)
 			return (-1);
 		map->my_x = -1;
 	}

@@ -12,18 +12,18 @@
 
 NAME = bglinda.filler
 
-
 CFLAGS  = -Wall -Wextra -Werror -g
 
-SRC_FILLER = main.c algorithm.c create_map.c create_figure.c heatmap.c helper.c \
+SRC = main.c algorithm.c create_map.c create_figure.c \
+				heatmap.c helper.c validation.c
 
-OBJSFD  = obj
+OBJS_D  = obj
 
 SRCS    = src
 
-OBJS1    = $(addprefix $(OBJSFD)/,$(SRC_FILLER:.c=.o))
+HEAD = ./includes/filler.h
 
-DFS = ./includes/filler.h
+OBJS    = $(addprefix $(OBJS_D)/,$(SRC:.c=.o))
 
 LIBFT_HDR   = -I ./includes/libft/headers
 
@@ -32,28 +32,26 @@ LIB_BINARY  = -L ./includes/libft -lft
 LIBFT       = ./includes/libft/libft.a
 
 GREEN:="\033[1;32m"
-
 ANSI_COLOR_RESET:="\x1b[0m"
 
 all: $(LIBFT) $(NAME)
 
-$(OBJSFD):
-	@mkdir $@
-
-$(OBJSFD)/%.o: $(SRCS)/%.c | $(OBJSFD)
-	@gcc $(CFLAGS) $(LIBFT_HDR) -c $< -o $@
-
 $(LIBFT):
 	@make -C ./includes/libft
 
-$(NAME): $(OBJS1) $(DFS)
-	@gcc $(OBJS1) $(LIB_BINARY) -o $@
-	@echo $(GREEN)"     $(NAME) is ready"$(ANSI_COLOR_RESET)
+$(OBJS_D):
+	@mkdir $@
 
+$(OBJS_D)/%.o: $(SRCS)/%.c $(HEAD)
+	@gcc $(CFLAGS) $(LIBFT_HDR) -c $< -o $@
+
+$(NAME): $(OBJS_D) $(OBJS) $(HEAD)
+	@gcc $(LIB_BINARY) $(LIBFT_HDR) $(OBJS) -o $@
+	@echo $(GREEN)"     $(NAME) is ready"$(ANSI_COLOR_RESET)
 
 clean:
 	@/bin/rm -f $(OBJS)
-	@rm -rf $(OBJSFD)
+	@rm -rf $(OBJS_D)
 	@make -C ./includes/libft clean
 
 fclean: clean
@@ -61,3 +59,5 @@ fclean: clean
 	@make -C ./includes/libft fclean
 
 re: fclean all
+
+.PHONY: all fclean clean re
