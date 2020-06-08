@@ -35,13 +35,19 @@ int			check_inter(int map_value, int figure_value, int *inter,
 		int *count)
 {
 	if (map_value == -1 && figure_value == -1)
+	{
 		(*inter)++;
+		printf("inter++ = %d\n", *inter);
+	}
+
+
 	if (map_value == 0 && figure_value == -1)
 		return (-1);
 	if (*inter > 1)
 		return (-1);
 	if (map_value > 0 && figure_value == -1)
 		(*count) += map_value;
+	printf("count = %d\n", *count);
 	return (1);
 }
 
@@ -62,9 +68,14 @@ int			set_figure(t_struct *map, int i, int j, int *inter)
 		j = ptr_j;
 		while (x < map->f_width && j < map->hor_size)
 		{
+			printf("i = %d, y = %d, j = %d, x = %d \n", i,y,j,x);
 			if (check_inter(map->map[i][j], map->figure[y][x],
 					inter, &count) == -1)
+			{
+//				printf("!!!!!count = %d\n", count);
 				return (-1);
+			}
+
 			j++;
 			x++;
 		}
@@ -78,6 +89,7 @@ int			change_values(t_struct *map, int i, int j, int count)
 {
 	map->my_x = j;
 	map->my_y = i;
+	printf("\nresult count = %d, my_x = %d, my_y = %d\n", count, j,i);
 	return (count);
 }
 
@@ -102,8 +114,10 @@ void		find_place(t_struct *map)
 				count = set_figure(map, i, j, &intersection);
 				if (count > 0 && intersection > 0 && count < current)
 					current = change_values(map, i, j, count);
+
 			}
 			j++;
+			printf("\n");
 		}
 		i++;
 	}
@@ -117,6 +131,7 @@ int			solver(t_struct *map)
 	while (1)
 	{
 		update_heatmap(map, 0, 1);
+		print_heatmap(map);
 		find_place(map);
 		x = ft_itoa(map->my_x);
 		y = ft_itoa(map->my_y);
