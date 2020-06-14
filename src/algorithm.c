@@ -104,6 +104,7 @@ int			solver(t_struct *map)
 		if (!(x && y))
 			return (fresh(-1, map));
 		ft_printf("%s %s\n", y, x);
+//		ft_printf("%d %d\n", map->my_y, map->my_x);
 		free(x);
 		free(y);
 		if (map->my_x < 0 || map->my_y < 0)
@@ -114,6 +115,7 @@ int			solver(t_struct *map)
 		if (update_map(map, map->ver_size) == -1)
 			return (-1);
 		map->my_x = -1;
+//		map->my_y = -1;
 	}
 	return (0);
 }

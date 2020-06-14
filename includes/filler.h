@@ -51,5 +51,6 @@ int				valid_player(t_struct *map);
 int				valid_shape(t_struct *map);
 int				valid_shape_fig(char *piece, t_struct *map);
 int				valid_figure(t_struct *map, char *ptr, int gnl);
+void			get_shape_map(t_struct *map, char **arr);
 
 #endif

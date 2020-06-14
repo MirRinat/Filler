@@ -68,8 +68,7 @@ int			valid_shape(t_struct *map)
 {
 	int		gnl;
 	char	*ptr;
-	char	**arr2;
-	char	**arr3;
+	char	**arr;
 
 	gnl = get_next_line(0, &ptr);
 	if (gnl == 0 || gnl == -1 || !ptr || !ptr[0])
@@ -77,18 +76,16 @@ int			valid_shape(t_struct *map)
 		ft_strdel(&ptr);
 		return (-1);
 	}
-	arr2 = ft_strsplit(ptr, ' ');
+	arr = ft_strsplit(ptr, ' ');
 	ft_strdel(&ptr);
-	if (ft_len_arr(arr2) != 3 || ft_strcmp(arr2[0], "Plateau") != 0)
+	if (ft_len_arr(arr) != 3 || ft_strcmp(arr[0], "Plateau") != 0)
 	{
-		free_map((void **)arr2);
+		free_map((void **)arr);
 		return (-1);
 	}
-	map->ver_size = ft_atoi(arr2[1]);
-	arr3 = ft_strsplit(arr2[2], ':');
-	free_map((void **)arr2);
-	map->hor_size = ft_atoi(arr3[0]);
-	free_map((void **)arr3);
+	get_shape_map(map, arr);
+	if (map->ver_size <= 0 || map->hor_size <= 0)
+		return (-1);
 	return (1);
 }
 
@@ -110,6 +107,11 @@ int			valid_shape_fig(char *piece, t_struct *map)
 	map->f_width = ft_atoi(arr[0]);
 	free_map((void **)tab);
 	free_map((void **)arr);
+	if (map->f_width <= 0 || map->f_ver <= 0)
+	{
+		free_map((void **)map->map);
+		return (-1);
+	}
 	return (1);
 }
 

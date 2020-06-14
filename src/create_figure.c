@@ -12,6 +12,17 @@
 
 #include "../includes/filler.h"
 
+void		get_shape_map(t_struct *map, char **arr)
+{
+	char **width;
+
+	map->ver_size = ft_atoi(arr[1]);
+	width = ft_strsplit(arr[2], ':');
+	free_map((void **)arr);
+	map->hor_size = ft_atoi(width[0]);
+	free_map((void **)width);
+}
+
 int			def_shape_fig(char *piece, t_struct *map)
 {
 	int		i;
